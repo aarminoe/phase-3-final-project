@@ -1,3 +1,4 @@
 class User < ActiveRecord::Base
-    has_many :items
+    has_many :tasks
+    has_many :friends, through :tasks
 end
