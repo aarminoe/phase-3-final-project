@@ -10,8 +10,9 @@ class ApplicationController < Sinatra::Base
   post "/tasks" do
     task = Task.create(
       name: params[:name],
-      type: params[:type],
-      date: params[:date]
+      category: params[:category],
+      date: params[:date],
+      user_id: params[:user_id]
     )
     task.to_json
   end

@@ -19,8 +19,9 @@ ActiveRecord::Schema.define(version: 2022_07_02_135717) do
 
   create_table "tasks", force: :cascade do |t|
     t.string "name"
-    t.string "type"
+    t.string "category"
     t.string "date"
+    t.integer "user_id"
   end
 
   create_table "users", force: :cascade do |t|
