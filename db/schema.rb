@@ -21,6 +21,7 @@ ActiveRecord::Schema.define(version: 2022_07_02_135717) do
 
   create_table "updates", force: :cascade do |t|
     t.string "comment"
+    t.integer "task_id"
     t.integer "user_id"
   end
 
