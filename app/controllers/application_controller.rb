@@ -27,6 +27,12 @@ class ApplicationController < Sinatra::Base
     update.to_json
   end
 
+  delete '/updates/:id' do
+    update = Update.find(params[:id])
+    update.destroy
+    update.to_json
+  end
+
   post "/tasks" do
     task = Task.create(
       name: params[:name],
