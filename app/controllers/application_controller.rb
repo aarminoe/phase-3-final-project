@@ -9,8 +9,10 @@ class ApplicationController < Sinatra::Base
   post '/users' do
     user = User.create(
       username: params[:username],
-      password: params[:password]
+      password: params[:password],
+      bio: params[:bio]
     )
+    user.to_json
   end
 
   get '/updates' do
