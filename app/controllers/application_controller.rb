@@ -18,6 +18,15 @@ class ApplicationController < Sinatra::Base
     update.to_json 
   end
 
+  post '/updates' do
+    update = Update.create(
+      comment: params[:comment],
+      task_id: params[:task_id],
+      user_id: params[:user_id]
+    )
+    update.to_json
+  end
+
   post "/tasks" do
     task = Task.create(
       name: params[:name],
