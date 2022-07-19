@@ -3,7 +3,7 @@ class ApplicationController < Sinatra::Base
   
   get "/users" do
     user = User.all
-    user.to_json(include: :tasks)
+    user.to_json(include: { tasks: { include: :updates }})
   end
 
   post '/users/:id/tasks' do
@@ -17,11 +17,11 @@ class ApplicationController < Sinatra::Base
     tasks.to_json(include: :updates)
   end
 
-  get '/users/:id/tasks' do
-    user = User.find(params[:id])
-    tasks = user.tasks.all 
-    tasks.to_json(include: :updates)
-  end
+  # get '/users/:id/tasks' do
+  #   user = User.find(params[:id])
+  #   tasks = user.tasks.all 
+  #   tasks.to_json(include: :updates)
+  # end
 
   post '/users' do
     user = User.create(
@@ -32,10 +32,10 @@ class ApplicationController < Sinatra::Base
     user.to_json
   end
 
-  get '/updates' do
-    update = Update.all
-    update.to_json 
-  end
+  # get '/updates' do
+  #   update = Update.all
+  #   update.to_json 
+  # end
 
   post '/users/:id/tasks/:taskid/updates' do
     user = User.find(params[:id])
@@ -47,22 +47,24 @@ class ApplicationController < Sinatra::Base
     update.to_json
   end
 
-  get '/users/:id/tasks/:taskid/updates' do
+  # get '/users/:id/tasks/:taskid/updates' do
+  #   user = User.find(params[:id])
+  #   task = user.tasks.find(params[:taskid])
+  #   update = task.updates.all
+  #   update.to_json
+  # end
+
+  # get '/users/:id/tasks/:taskid' do
+  #   user = User.find(params[:id])
+  #   task = user.tasks.find(params[:taskid])
+  #   update = user.updates.all
+  #   task.to_json(include: :updates)
+  # end
+
+  delete '/users/:id/tasks/:taskid/updates/:updateid' do
     user = User.find(params[:id])
     task = user.tasks.find(params[:taskid])
-    update = task.updates.all
-    update.to_json
-  end
-
-  get '/users/:id/tasks/:taskid' do
-    user = User.find(params[:id])
-    task = user.tasks.find(params[:taskid])
-    update = user.updates.all
-    task.to_json(include: :updates)
-  end
-
-  delete '/updates/:id' do
-    update = Update.find(params[:id])
+    update = task.updates.find(params[:updateid])
     update.destroy
     update.to_json
   end
@@ -77,14 +79,16 @@ class ApplicationController < Sinatra::Base
   #   task.to_json
   # end
 
-  delete '/tasks/:id' do
-    task = Task.find(params[:id])
+  delete '/users/:id/tasks/:taskid' do
+    user = User.find(params[:id])
+    task = user.tasks.find(params[:taskid])
     task.destroy
     task.to_json
   end
 
-  patch '/tasks/:id' do 
-    task = Task.find(params[:id])
+  patch '/users/:id/tasks/:taskid' do 
+    user = User.find(params[:id])
+    task = user.tasks.find(params[:taskid])
     task.update(
       name: params[:name],
       category: params[:category],
@@ -93,8 +97,8 @@ class ApplicationController < Sinatra::Base
     task.to_json
   end
 
-  get '/tasks' do
-    task = Task.all
-    task.to_json(include: :updates)
-  end
+  # get '/tasks' do
+  #   task = Task.all
+  #   task.to_json(include: :updates)
+  # end
 end
