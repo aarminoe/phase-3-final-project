@@ -6,6 +6,11 @@ class ApplicationController < Sinatra::Base
     user.to_json(include: { tasks: { include: :updates }})
   end
 
+  get '/users/:id' do
+    user = User.find(params[:id])
+    user.to_json(include: { tasks: { include: :updates }})
+  end
+
   post '/users/:id/tasks' do
     user = User.find(params[:id])
     tasks = user.tasks.create(
@@ -31,11 +36,6 @@ class ApplicationController < Sinatra::Base
     )
     user.to_json
   end
-
-  # get '/updates' do
-  #   update = Update.all
-  #   update.to_json 
-  # end
 
   post '/users/:id/tasks/:taskid/updates' do
     user = User.find(params[:id])
@@ -69,15 +69,6 @@ class ApplicationController < Sinatra::Base
     update.to_json
   end
 
-  # post "/tasks" do
-  #   task = Task.create(
-  #     name: params[:name],
-  #     category: params[:category],
-  #     date: params[:date],
-  #     user_id: params[:user_id]
-  #   )
-  #   task.to_json
-  # end
 
   delete '/users/:id/tasks/:taskid' do
     user = User.find(params[:id])
@@ -97,8 +88,4 @@ class ApplicationController < Sinatra::Base
     task.to_json
   end
 
-  # get '/tasks' do
-  #   task = Task.all
-  #   task.to_json(include: :updates)
-  # end
 end
